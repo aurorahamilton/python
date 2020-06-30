@@ -45,7 +45,7 @@ def rlencode(string: str):
     # aaaaabbbaac, a5b3a2c1
     l = len(string)
     shrt = ""
-    string = list(string.lower())
+    string = list(string)
     i = 0
     num = 1
     chara = str(string[i])
@@ -67,6 +67,34 @@ def rlencode(string: str):
         shrt = shrt + chara + str(num)
     return shrt
 
+def is_integer(ns: str):
+    try:
+        int(ns) 
+    except ValueError :
+        return False
+    else :
+        return True
+    
+def rldecode (string: str):
+    l = len(string)
+    og = ""
+    string = list(string)
+    i = 0
+    multi = 1
+    chara = ''
+    for i in range(0,l) :
+        if is_integer(string[i]) == False :
+            chara = string[i]
+            og = og + chara
+            multi = 1
+        else :
+            multi = int(string[i])
+            if multi > 1 :
+                og = og + ((multi - 1) * chara)
+                
+    return og
+
+
 #print("Hello World")
 #s1 = "Abhinaba"
 #s2 = "Prokriti"
@@ -79,5 +107,8 @@ def rlencode(string: str):
 #count2 = count_char(s1, "a")
 #print(count1, count2)
 RLE = "aaaaabbbaaccd"
+print(RLE)
 rle_run = rlencode(RLE)
 print(rle_run)
+rld_run = rldecode(rle_run)
+print(rld_run)
