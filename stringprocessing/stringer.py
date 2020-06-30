@@ -74,6 +74,16 @@ def is_integer(ns: str):
         return False
     else :
         return True
+
+def is_int_or_EOL(ns: list, n:int ):
+        try:
+            x = is_integer(ns[n])
+        except IndexError:
+            return False
+        if x == False:
+            return False
+        else :
+            return True
     
 def rldecode (string: str):
     l = len(string)
@@ -81,16 +91,22 @@ def rldecode (string: str):
     string = list(string)
     i = 0
     multi = 1
+    multistr = ''
     chara = ''
     for i in range(0,l) :
-        if is_integer(string[i]) == False :
+        if not is_integer(string[i]):
             chara = string[i]
             og = og + chara
             multi = 1
         else :
-            multi = int(string[i])
-            if multi > 1 :
+            multistr = multistr + string[i]
+
+        if is_int_or_EOL(string, (i+1)) == False :
+            if is_integer(multistr) == True:
+                multi = int(multistr)
                 og = og + ((multi - 1) * chara)
+            multi = 1
+            multistr = ''
                 
     return og
 
