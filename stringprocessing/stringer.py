@@ -94,6 +94,14 @@ def rldecode (string: str):
                 
     return og
 
+def testRLE(string) :
+    res = rlencode(string)
+    res2 = rldecode(res)
+    print(string + " -> " + res + " -> " + res2)
+    if res2 == string:
+        print("     PASS")
+    else:
+        print("     FAIL")
 
 #print("Hello World")
 #s1 = "Abhinaba"
@@ -106,9 +114,13 @@ def rldecode (string: str):
 #count1 = count_char(s2, "i")
 #count2 = count_char(s1, "a")
 #print(count1, count2)
-RLE = "aaaaabbbaaccd"
-print(RLE)
-rle_run = rlencode(RLE)
-print(rle_run)
-rld_run = rldecode(rle_run)
-print(rld_run)
+testRLE("aaaaabbbaaccd")
+
+testRLE("abacd")
+
+testRLE("aaaaaaaa")
+
+testRLE("a")
+
+testRLE("aaaaaaaaaaaaabbcc")
+
