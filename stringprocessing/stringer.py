@@ -101,8 +101,8 @@ def rldecode (string: str):
         else :
             multistr = multistr + string[i]
 
-        if is_int_or_EOL(string, (i+1)) == False :
-            if is_integer(multistr) == True:
+        if not is_int_or_EOL(string, (i+1)):
+            if is_integer(multistr):
                 multi = int(multistr)
                 og = og + ((multi - 1) * chara)
             multi = 1
@@ -119,6 +119,26 @@ def testRLE(string) :
     else:
         print("     FAIL")
 
+def string_in_string(LStr:str, SStr:str):
+    LL = len(LStr)
+    LS = len(SStr)
+    LStr = list(LStr)
+    CStr = ''
+    Locations = "Matches Begin at Index Posititions:"
+    for i in range(0,LL) :
+        for n in range(0,LS):
+            l = i + n
+            try :
+                CStr = CStr + LStr[l]
+            except IndexError:
+                return Locations
+            if CStr == SStr:
+                Locations = Locations + " " + str(i)
+        CStr = ''
+    return Locations
+
+
+
 #print("Hello World")
 #s1 = "Abhinaba"
 #s2 = "Prokriti"
@@ -130,13 +150,16 @@ def testRLE(string) :
 #count1 = count_char(s2, "i")
 #count2 = count_char(s1, "a")
 #print(count1, count2)
-testRLE("aaaaabbbaaccd")
+#testRLE("aaaaabbbaaccd")
 
-testRLE("abacd")
+#testRLE("abacd")
 
-testRLE("aaaaaaaa")
+#testRLE("aaaaaaaa")
 
-testRLE("a")
+#testRLE("a")
 
-testRLE("aaaaaaaaaaaaabbcc")
+#testRLE("aaaaaaaaaaaaabbcc")
 
+s = string_in_string('aaaaaaaaaaaabbbbbbbbbbcccccccccccaaaaaabbbbbccccccaaabbccabab', "ab")
+t = string_in_string('mamamamamamama', "mama")
+print(s,t)
