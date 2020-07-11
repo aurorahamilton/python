@@ -125,18 +125,60 @@ def string_in_string(LStr:str, SStr:str):
     LStr = list(LStr)
     CStr = ''
     Locations = "Matches Begin at Index Posititions:"
-    for i in range(0,LL) :
+    for i in range(0,LL - LS) :
         for n in range(0,LS):
             l = i + n
-            try :
-                CStr = CStr + LStr[l]
-            except IndexError:
-                return Locations
+            CStr = CStr + LStr[l]
             if CStr == SStr:
                 Locations = Locations + " " + str(i)
         CStr = ''
     return Locations
 
+def strStr(LStr:str, SStr:str):
+    LL = len(LStr)
+    LS = len(SStr)
+    LStr = list(LStr)
+    SStr = list(SStr)
+    location = -1
+    for i in range(0,LL - LS) :
+        location = i
+        for j in range(0,LS):
+            l = i + j
+            if LStr[l] != SStr[j]:
+                location = -1
+                break
+        if location >= 0 :
+            return location
+    return -1   
+
+def StrCmp(str1: str, str2: str):
+    L1 = len(str1)
+    L2 = len(str2)
+    str1 = list(str1)
+    str2 = list(str2)
+    r = 0
+    if L1 > L2 :
+        L = L2
+    if L1 <= L2 :
+        L = L1
+    for i in range (0,L):
+        if str1[i] == str2[i]:
+            continue
+        elif ord(str1[i]) > ord(str2[i]):
+            r = -1
+            return r
+        else:
+            r = 1
+            return r
+    if L1 > L2 :
+        r = -1
+        return r
+    elif L1< L2:
+        r = 1
+        return r
+
+        
+         
 
 
 #print("Hello World")
@@ -160,6 +202,12 @@ def string_in_string(LStr:str, SStr:str):
 
 #testRLE("aaaaaaaaaaaaabbcc")
 
-s = string_in_string('aaaaaaaaaaaabbbbbbbbbbcccccccccccaaaaaabbbbbccccccaaabbccabab', "ab")
-t = string_in_string('mamamamamamama', "mama")
-print(s,t)
+#s = string_in_string('aaaaaaaaaaaabbbbbbbbbbcccccccccccaaaaaabbbbbccccccaaabbccabab', "ab")
+#t = string_in_string('mamamamamamama', "mama")
+#print(s,t)
+
+#a = string_in_string('abcdeef', "cde")
+
+#a = strStr("abhinabhna", "bhn")
+a = StrCmp("Abhinaba", "Abhi")
+print(a)
