@@ -177,7 +177,110 @@ def StrCmp(str1: str, str2: str):
         r = 1
         return r
 
-        
+
+def FileWordbyWord(filepath: str) :
+    file = open(filepath, "r")
+    r = file.read()
+    l = len(r)
+
+    word = ""
+    for i in range (0,l):
+        if r[i] != " " and r[i] != "\n" :
+            word = word + r[i]
+        else :
+            print(word)
+            word = ""
+
+def DNAFileReader(filepath: str) :
+    DNAFile = open(filepath)
+    DNA = DNAFile.read()
+    l = len(DNA)
+    ret = ''
+    for i in range(0,l):
+        if DNA[i] == ">":
+            flag = True
+        elif DNA[i] == "\n":
+            flag = False
+        elif flag:
+            continue
+        else:
+            ret = ret + DNA[i]
+    return ret
+
+def MaxRepeatLetter(filepath: str):
+    DNA = DNAFileReader(filepath)
+    l = len(DNA)
+    MaxNumber = 1
+    CompNumber = 1
+    IndexPosition = 0
+    MaxLetter = DNA[1]
+    for i in range(1,l):
+        if DNA[i] == DNA[i-1]:
+            CompNumber = CompNumber + 1
+        elif DNA[i] != DNA[i-1] and CompNumber > MaxNumber:
+            MaxNumber = CompNumber
+            IndexPosition = i - CompNumber
+            MaxLetter = DNA[i-1]
+            CompNumber = 1
+        elif DNA[i] != DNA[i-1] and CompNumber < MaxNumber:
+            CompNumber = 1
+        elif DNA[i] != DNA[i-1]:
+            CompNumber = 1
+    if DNA[i] == DNA[i-1]:
+        CompNumber = CompNumber + 1
+    elif DNA[i] != DNA[i-1] and CompNumber > MaxNumber:
+        MaxNumber = CompNumber
+        IndexPosition = i - CompNumber
+        MaxLetter = DNA[i-1]
+        CompNumber = 1
+    elif DNA[i] != DNA[i-1] and CompNumber < MaxNumber:
+        CompNumber = 1
+    elif DNA[i] != DNA[i-1]:
+        CompNumber = 1
+
+    return IndexPosition, MaxNumber, MaxLetter
+
+#def CDNAtoRNA(filepath: str):
+#    DNA = DNAFileReader(filepath)
+
+#Make a CDNA to RNA translation code
+#The final genome of sequenced SARS-CoV-2 consists of a single, 
+# positive-stranded RNA that is 29,811 nucleotides long, broken down as follows:
+#  8,903 (29.86%) adenosines, 5,482 (18.39%) cytosines, 5,852 (19.63%) guanines, and 9,574 (32.12%) thymines.
+
+def NeucleotideCounter(filepath: str) :
+    DNA = DNAFileReader(filepath)
+    l = len(DNA)
+    Total = l + 1
+    AC = 0
+    TC = 0
+    GC = 0
+    CC = 0
+    UC = 0
+    for i in range(0,l):
+        if DNA[i] == "A" :
+            AC = AC + 1
+        elif DNA[i] == "T" :
+            TC = TC + 1
+        elif DNA[i] == "U" :
+            UC = UC + 1
+        elif DNA[i] == "G" :
+            GC = GC + 1
+        elif DNA[i] == "C" :
+            CC = CC + 1
+    AP = 100 *(AC/Total)
+    TP = 100 * (TC/Total)
+    UP = 100 * (UC/Total)
+    GP = 100 * (GC/Total)
+    CP = 100 * (CC/Total) 
+    if UC == 0 :
+        Order = "Total, ATGC"
+        return Order, Total, AC, AP, TC, TP, GC, GP, CC, CP 
+    elif TC == 0 :
+        Order = "Total, AUGC"
+        return Order, Total, AC, AP, UC, UP, GC, GP, CC, CP 
+
+
          
 
 
@@ -209,5 +312,12 @@ def StrCmp(str1: str, str2: str):
 #a = string_in_string('abcdeef', "cde")
 
 #a = strStr("abhinabhna", "bhn")
-a = StrCmp("Abhinaba", "Abhi")
-print(a)
+#a = StrCmp("Abhinaba", "Abhi")
+#print(a)
+#FileWordbyWord("C:\\Users\\prokr\\OneDrive\\python\\Dictionary.txt")
+
+filepath = "C:\\Users\\prokr\\python\\stringprocessing\\COVID19.txt"
+a,b,c = MaxRepeatLetter(filepath)
+print(a,b,c)
+
+print(NeucleotideCounter(filepath))
